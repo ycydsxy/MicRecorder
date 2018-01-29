@@ -13,24 +13,29 @@ import javax.sound.sampled.TargetDataLine;
 
 /**
  * 
- * @author  R.G.Baldwin
+ * @author R.G.Baldwin
  * 
- * Modified by Kevin Su
+ *         Modified by Kevin Su
  *
  */
 public class AudioRecorder {
 
 	AudioFormat audioFormat;
 	TargetDataLine targetDataLine;
-	private Date Start_Time = new Date();
-	private Date End_Time;
+	private Date Start_Time;
 	private File saveDirectory;
+
+	public AudioRecorder(File saveDirectory) {
+		super();
+		this.saveDirectory = saveDirectory;
+	}
 
 	// 此方法捕获从一个音频输入
 	// 麦克风，并将其保存在一个音频文件。
 	public void captureAudio() {
 		try {
 			// 得到的东西设定为捕捉
+			Start_Time = new Date();
 			audioFormat = getAudioFormat();
 			DataLine.Info dataLineInfo = new DataLine.Info(
 					TargetDataLine.class, audioFormat);
@@ -60,11 +65,11 @@ public class AudioRecorder {
 	// 允许的参数值，这显示
 	// 以下的声明的评论。
 	private AudioFormat getAudioFormat() {
-		float sampleRate = 8000.0F;
+		float sampleRate = 44100.0F;
 		// 8000,11025,16000,22050,44100
 		int sampleSizeInBits = 16;
 		// 8,16
-		int channels = 1;
+		int channels = 2;
 		// 1,2
 		boolean signed = true;
 		// true,false
@@ -81,15 +86,10 @@ public class AudioRecorder {
 	class CaptureThread extends Thread {
 		public void run() {
 			AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
-			// String absoluteFilePath = saveDirectory.getAbsolutePath()
-			// + "\\"
-			// + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-			// .format(Start_Time) + "_junk.wav";
-			
-			String absoluteFilePath = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss").format(Start_Time) + "_junk.wav";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+			String absoluteFilePath = saveDirectory.getAbsolutePath().replace(".", "")
+					+ sdf.format(Start_Time) + "_record.wav";
 			File audioFile = new File(absoluteFilePath);
-
 			try {
 				targetDataLine.open(audioFormat);
 				targetDataLine.start();
