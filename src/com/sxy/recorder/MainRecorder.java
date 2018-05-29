@@ -26,7 +26,7 @@ public class MainRecorder {
 			Transcode_Interval = Integer.parseInt(args[2]);
 		}
 
-		File saveDirectory = new File(Path);
+		final File saveDirectory = new File(Path);
 		System.out.println("Save path:" + saveDirectory.getAbsolutePath());
 
 		if (!saveDirectory.isDirectory()) {
