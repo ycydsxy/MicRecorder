@@ -10,8 +10,8 @@ import com.sxy.transcoder.Transcoder;
 public class MainRecorder {
 	private static AudioRecorder Audio_Recorder = null;
 	private static String Path = "./";
-	private static int Interval = 1;
-	private static int Transcode_Interval = 24;
+	private static long Interval = 1;
+	private static long Transcode_Interval = 24;
 
 	public static void main(String[] args) throws Exception {
 		// ¸ÄÐ´Ä¬ÈÏÖµ
@@ -19,11 +19,11 @@ public class MainRecorder {
 			Path = args[0];
 		} else if (args.length == 2) {
 			Path = args[0];
-			Interval = Integer.parseInt(args[1]);
+			Interval = Long.parseLong(args[1]);
 		} else if (args.length == 3) {
 			Path = args[0];
-			Interval = Integer.parseInt(args[1]);
-			Transcode_Interval = Integer.parseInt(args[2]);
+			Interval = Long.parseLong(args[1]);
+			Transcode_Interval = Long.parseLong(args[2]);
 		}
 
 		final File saveDirectory = new File(Path);
